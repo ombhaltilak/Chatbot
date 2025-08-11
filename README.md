@@ -103,7 +103,4 @@ Open your browser to the URL provided (usually `http://localhost:8501`).
 
 ---
 
-Enjoy chatting with your own personal AI assistant! 🚀
-
-Let me know if you want me to generate the `README.md` file for you or help with anything else!
-
+### Enjoy chatting with your own personal AI assistant! 🚀
