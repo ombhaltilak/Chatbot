@@ -1,3 +1,6 @@
-streamlit==1.24.1
-llama-index==0.6.15
-langchain==0.0.210
+streamlit
+llama-index
+llama-index-llms-llamacpp
+langchain
+langchain-community
+python-dotenv
