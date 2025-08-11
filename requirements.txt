@@ -4,3 +4,4 @@ llama-index-llms-llamacpp
 langchain
 langchain-community
 python-dotenv
+requests
