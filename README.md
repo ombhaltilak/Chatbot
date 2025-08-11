@@ -58,9 +58,7 @@ The bot maintains chat history and supports conversation clearing from the sideb
    ````
    git clone <your-repo-url>
    cd <your-repo-name>
-````
 
-````
 2. **Ensure you have the LLaMA 2 7B quantized model file (`.gguf`)**
    Download and place it locally. Update the `MODEL_PATH` in `app.py` accordingly.
 
