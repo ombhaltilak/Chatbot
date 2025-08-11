@@ -1,10 +1,27 @@
 import streamlit as st
+import os
+import requests
+import tempfile
 from llama_index.llms import LlamaCPP
 from llama_index.llms.llama_utils import messages_to_prompt, completion_to_prompt
 from langchain.schema import SystemMessage, HumanMessage, AIMessage
-import os
 
-MODEL_PATH = r"C:\Users\om\Downloads\llama-2-7b-chat.Q2_K.gguf"  # Faster quantization
+# ====== CHANGE THIS TO YOUR PUBLIC MODEL URL ======
+MODEL_URL = "https://huggingface.co/your-username/your-model/resolve/main/llama-2-7b-chat.Q2_K.gguf"
+
+# --------------------------------------------------
+
+def download_model(url):
+    """Download the model to a temp directory if not already present."""
+    local_path = os.path.join(tempfile.gettempdir(), os.path.basename(url))
+    if not os.path.exists(local_path):
+        with st.spinner("Downloading model... (this may take a while)"):
+            r = requests.get(url, stream=True)
+            r.raise_for_status()
+            with open(local_path, "wb") as f:
+                for chunk in r.iter_content(chunk_size=8192):
+                    f.write(chunk)
+    return local_path
 
 def init_page():
     st.set_page_config(page_title="Personal Chatbot")
@@ -12,8 +29,9 @@ def init_page():
     st.sidebar.title("Options")
 
 def select_llm():
+    model_path = download_model(MODEL_URL)
     return LlamaCPP(
-        model_path=MODEL_PATH,
+        model_path=model_path,
         temperature=1.9,
         max_new_tokens=150,
         context_window=4096,
@@ -28,7 +46,6 @@ def select_llm():
         verbose=False,
     )
 
-
 def init_messages():
     if st.sidebar.button("Clear Conversation", key="clear") or "messages" not in st.session_state:
         st.session_state.messages = [
@@ -36,7 +53,6 @@ def init_messages():
         ]
 
 def get_answer(llm, messages):
-    # Turn all stored messages into one prompt string
     prompt = ""
     for msg in messages:
         role = "System" if isinstance(msg, SystemMessage) else \
@@ -44,7 +60,6 @@ def get_answer(llm, messages):
                "Assistant"
         prompt += f"{role}: {msg.content}\n"
 
-    # Send full conversation to the model
     response = llm.complete(prompt)
     return response.text
 
@@ -56,7 +71,6 @@ def main():
     if user_input := st.chat_input("Input your question!"):
         st.session_state.messages.append(HumanMessage(content=user_input))
         with st.spinner("Bot is typing..."):
-            # Pass full messages list here instead of just user_input
             answer = get_answer(llm, st.session_state.messages)
         st.session_state.messages.append(AIMessage(content=answer))
 
@@ -67,5 +81,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
-
