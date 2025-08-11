@@ -2,7 +2,7 @@ import streamlit as st
 import os
 import requests
 import tempfile
-from llama_index.llms import LlamaCPP
+from llama_index.llms.llama_cpp import LlamaCPP   # ✅ fixed import
 from llama_index.llms.llama_utils import messages_to_prompt, completion_to_prompt
 from langchain.schema import SystemMessage, HumanMessage, AIMessage
 
@@ -81,3 +81,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
