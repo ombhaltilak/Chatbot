@@ -60,6 +60,7 @@ The bot maintains chat history and supports conversation clearing from the sideb
    cd <your-repo-name>
 ````
 
+````
 2. **Ensure you have the LLaMA 2 7B quantized model file (`.gguf`)**
    Download and place it locally. Update the `MODEL_PATH` in `app.py` accordingly.
 
@@ -108,4 +109,4 @@ Enjoy chatting with your own personal AI assistant! 🚀
 
 
 Let me know if you want me to generate the `README.md` file for you or help with anything else!
-```
+````
